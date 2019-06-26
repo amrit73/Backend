@@ -5,7 +5,6 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var app = express();
 
-
 router.post('/authenticate', function(req, res) {
     var response = res;
 
@@ -142,8 +141,5 @@ router.use(function(req, res, next) {
     }
 
 });
-
-
-
 
 module.exports = router;

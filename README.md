@@ -1,9 +1,9 @@
 # Your Project Title Here
-Name: Your Full Name
+Name: Amrit Shrestha
 
-CollegeID: Your College ID
+CollegeID: 160329
 
-Batch: Jan19A/B/C/D?
+Batch: Jan19D
 
 Brief description of the domain of your project!
 

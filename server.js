@@ -7,10 +7,12 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 const path = require('path');
+
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var User = require('./app/models/user'); // get our mongoose model
 var cors = require('cors');
+const exphbs = require('express-handlebars');
 
 
 
@@ -20,7 +22,7 @@ var cors = require('cors');
 
 var port = process.env.PORT || 3000; // used to create, sign, and verify tokens
 // connect to database
-mongoose.connect(config.database, { useNlParser: true }, (err) => {
+mongoose.connect(config.database, { useNewUrlParser: true }, (err) => {
     if (!err) { console.log('MongoDB Connection Succeeded.') } else { console.log('Error in DB connection : ' + err) }
 });
 
@@ -35,8 +37,11 @@ app.use(morgan('dev'));
 // Controllers =====================================================
 // =================================================================
 const loginController = require('./app/controllers/loginController');
+const frontendController = require('./app/controllers/frontendController');
+
+
 // =================================================================
-// routes ========================== ==============================
+// routes ==========================================================
 // =================================================================
 app.get('/setup', function(req, res) {
 
@@ -54,7 +59,7 @@ app.get('/setup', function(req, res) {
     });
 });
 
-// basic route (http://localhost:3000)
+// basic route (http://localhost:8080)
 app.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
@@ -79,8 +84,9 @@ var corsOptions = {
     "optionsSuccessStatus": 204
 };
 
-
+app.use('/api', cors(corsOptions), frontendController);
 app.use('/api', cors(corsOptions), loginController);
+// app.use('/api', cors(corsOptions), appointmentController);
 
 
 // =================================================================
