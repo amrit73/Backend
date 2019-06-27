@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var Forum = require('../models/forum');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var app = express();
-
-
 
 router.post('/profile', (req, res) => {
     User.findOne({
@@ -173,6 +172,41 @@ router.post('/edtProfile', (req, res) => {
             console.log('Error during record update : ' + err);
         }
     });
+});
+
+
+router.post('/forumPost', (req, res) => {
+    User.findOne({
+        _id: req.body._id
+    }, function(err, user) {
+        if (err) {
+            res.json({ 'Success': 'Post Failed Something is wrong. Log in first!!' });
+        } else if (!user) {
+            res.json({ 'Success': 'Post Failed Something is wrong. Log in first!!' });
+        } else if (user) {
+
+            console.log(user.username);
+            console.log(req.body.username);
+            if (user.username == req.body.username) {
+                var forum = new Forum();
+
+                forum.title = req.body.title;
+                forum.description = req.body.description;
+                forum.author = req.body.username;
+                forum.save((err, doc) => {
+                    if (err) {
+                        console.log('Error during record insertion : ' + err);
+                    } else {
+                        res.json({ 'Success': 'Post successfully Placed!!!' });
+                    }
+                });
+            } else {
+                res.json({ 'Success': 'Authentication Failed!!' });
+            }
+        }
+
+    });
+
 });
 
 
