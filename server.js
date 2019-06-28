@@ -14,6 +14,23 @@ var User = require('./app/models/user'); // get our mongoose model
 var cors = require('cors');
 const exphbs = require('express-handlebars');
 
+// =================================================================
+// Set Engine for view =============================================
+// =================================================================
+app.set('views', path.join(__dirname, '/app/views/'));
+app.engine('hbs', exphbs({
+    extname: 'hbs',
+    defaultLayout: 'mainLayout',
+    helpers: {
+
+        trimString: function(passedString) {
+            var StrippedString = passedString.replace(/(<([^>]+)>)/ig, "");
+            var theString = StrippedString.substring(0, 150);
+            return theString;
+        }
+    }
+}));
+app.set('view engine', 'hbs');
 
 
 // =================================================================
@@ -38,7 +55,6 @@ app.use(morgan('dev'));
 // =================================================================
 const loginController = require('./app/controllers/loginController');
 const frontendController = require('./app/controllers/frontendController');
-
 
 
 // =================================================================
@@ -87,8 +103,6 @@ var corsOptions = {
 
 app.use('/api', cors(corsOptions), frontendController);
 app.use('/api', cors(corsOptions), loginController);
-// app.use('/api', cors(corsOptions), appointmentController);
-
 
 // =================================================================
 // start the server ================================================

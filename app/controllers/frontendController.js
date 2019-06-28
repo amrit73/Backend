@@ -1,12 +1,24 @@
 var express = require('express');
 var router = express.Router();
-var Forum = require('../models/forum');
 var Appointment = require('../models/appointment');
-var Feedback = require('../models/feedback');
+var Forum = require('../models/forum');
 var async = require("async");
 var User = require('../models/user');
 
 
+router.get('/postlist', function(req, res) {
+    Forum.find((err, docs) => {
+        if (!err) {
+            console.log(docs);
+            res.render("postlist", {
+                forums: docs,
+                layout: ""
+            });
+        } else {
+            console.log('Error in retrieving page :' + err);
+        }
+    });
+});
 
 router.post('/appointment', (req, res) => {
     var appointment = new Appointment();
@@ -50,19 +62,4 @@ router.post('/contact', (req, res) => {
 });
 
 
-
-
-router.get('/postlist', function(req, res) {
-    Forum.find((err, docs) => {
-        if (!err) {
-            console.log(docs);
-            res.render("postlist", {
-                forums: docs,
-                layout: ""
-            });
-        } else {
-            console.log('Error in retrieving page :' + err);
-        }
-    });
-});
 module.exports = router;
