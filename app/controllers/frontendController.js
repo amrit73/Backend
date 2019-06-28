@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Appointment = require('../models/appointment');
 var Forum = require('../models/forum');
+var Feedback = require('../models/feedback');
 var async = require("async");
 var User = require('../models/user');
 
@@ -59,6 +60,33 @@ router.post('/contact', (req, res) => {
             res.send({ "Success": 'Your feedback successfully send. We will call you soon' });
         }
     });
+});
+
+
+router.get('/postDetail/:id', (req, res) => {
+    var locals = {};
+    async.parallel([
+        //Load user Data
+        function(callback) {
+            Forum.findById(req.params.id, function(err, forum) {
+                if (err) return callback(err);
+                locals.forum = forum;
+                callback();
+            });
+        },
+
+    ], function(err) { //This function gets called after the two tasks have called their "task callbacks"
+        if (err) return next(err); //If an error occurred, we let express handle it by calling the `next` function
+        //Here `locals` will be an object with `user` and `posts` keys
+        //Example: `locals = {user: ..., posts: [...]}`
+
+        res.render("postDetail", {
+            forum: locals.forum,
+            layout: ""
+        });
+    });
+
+
 });
 
 
