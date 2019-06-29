@@ -209,5 +209,40 @@ router.post('/forumPost', (req, res) => {
 
 });
 
+router.post('/post_comment', (req, res) => {
+    User.findOne({
+        _id: req.body._id
+    }, function(err, user) {
+        if (err) {
+            res.json({ 'Success': 'Post Failed Something is wrong. Log in first!!1' });
+        } else if (!user) {
+            res.json({ 'Success': 'Post Failed Something is wrong. Log in first!!2' });
+        } else if (user) {
+
+
+            if (user.username == req.body.username) {
+                var forumComment = new ForumComment();
+
+                forumComment.forum_id = req.body.forum_id;
+                forumComment.description = req.body.description;
+                forumComment.author = req.body.username;
+
+
+                forumComment.save((err, doc) => {
+                    if (err) {
+                        console.log('Error during record insertion : ' + err);
+                    } else {
+                        res.json({ 'Success': 'Your comment successfully posted' });
+                    }
+                });
+            } else {
+                res.json({ 'Success': 'Authentication Failed!!' });
+            }
+        }
+
+    });
+
+});
+
 
 module.exports = router;

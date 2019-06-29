@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Appointment = require('../models/appointment');
 var Forum = require('../models/forum');
+var ForumComment = require('../models/forumComment');
 var Feedback = require('../models/feedback');
 var async = require("async");
 var User = require('../models/user');
@@ -74,7 +75,15 @@ router.get('/postDetail/:id', (req, res) => {
                 callback();
             });
         },
-
+        //Load posts Data
+        function(callback) {
+            ForumComment.find({ forum_id: req.params.id }, function(err, comments) {
+                if (err) return callback(err);
+                locals.comments = comments;
+                console.log(comments);
+                callback();
+            }).sort({ '_id': -1 });
+        }
     ], function(err) { //This function gets called after the two tasks have called their "task callbacks"
         if (err) return next(err); //If an error occurred, we let express handle it by calling the `next` function
         //Here `locals` will be an object with `user` and `posts` keys
@@ -82,10 +91,11 @@ router.get('/postDetail/:id', (req, res) => {
 
         res.render("postDetail", {
             forum: locals.forum,
+            comments: locals.comments,
             layout: ""
         });
     });
-
+    console.log(locals.comments);
 
 });
 
