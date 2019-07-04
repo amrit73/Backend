@@ -8,20 +8,6 @@ var async = require("async");
 var User = require('../models/user');
 
 
-router.get('/postlist', function(req, res) {
-    Forum.find((err, docs) => {
-        if (!err) {
-            console.log(docs);
-            res.render("postlist", {
-                forums: docs,
-                layout: ""
-            });
-        } else {
-            console.log('Error in retrieving page :' + err);
-        }
-    });
-});
-
 router.post('/appointment', (req, res) => {
     var appointment = new Appointment();
     appointment.name = req.body.name;
@@ -64,40 +50,36 @@ router.post('/contact', (req, res) => {
 });
 
 
-router.get('/postDetail/:id', (req, res) => {
-    var locals = {};
-    async.parallel([
-        //Load user Data
-        function(callback) {
-            Forum.findById(req.params.id, function(err, forum) {
-                if (err) return callback(err);
-                locals.forum = forum;
-                callback();
-            });
-        },
-        //Load posts Data
-        function(callback) {
-            ForumComment.find({ forum_id: req.params.id }, function(err, comments) {
-                if (err) return callback(err);
-                locals.comments = comments;
-                console.log(comments);
-                callback();
-            }).sort({ '_id': -1 });
+router.get('/postlist', function(req, res) {
+    Forum.find((err, docs) => {
+        if (!err) {
+            res.json({ success: true, data: docs });
+        } else {
+            res.json({ success: false, message: "Error while fetching" });
         }
-    ], function(err) { //This function gets called after the two tasks have called their "task callbacks"
-        if (err) return next(err); //If an error occurred, we let express handle it by calling the `next` function
-        //Here `locals` will be an object with `user` and `posts` keys
-        //Example: `locals = {user: ..., posts: [...]}`
-
-        res.render("postDetail", {
-            forum: locals.forum,
-            comments: locals.comments,
-            layout: ""
-        });
     });
-    console.log(locals.comments);
+});
+
+router.get('/postDetail/:id', (req, res) => {
+    Forum.findById(req.params.id, function(err, forum) {
+        if (!err) {
+            res.json({ success: true, data: forum });
+        } else {
+            res.json({ success: false, message: "Error while fetching" });
+        }
+
+    });
 
 });
 
+router.get('/get_comment/:id', (req, res) => {
+    ForumComment.find({ forum_id: req.params.id }, function(err, comments) {
+        if (!err) {
+            res.json({ success: true, data: comments });
+        } else {
+            res.json({ success: false, message: "Error while fetching" });
+        }
+    });
+});
 
 module.exports = router;
