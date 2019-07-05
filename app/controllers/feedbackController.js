@@ -65,7 +65,7 @@ router.post('/admin/list_feedback', function(req, res, next) {
 router.post('/admin/delete_feedback', (req, res) => {
     Feedback.findByIdAndRemove(req.body._id, (err, doc) => {
         if (!err) {
-            res.json({ 'Success': 'Feedback added Successfully!!' });
+            res.json({ 'Success': 'Feedback Deleted Successfully!!' });
         } else {
             console.log('Error in Feedback delete :' + err);
         }
@@ -80,16 +80,6 @@ router.post('/admin/view_feedback', (req, res) => {
     });
 });
 
-router.post('/admin/update_feedback', (req, res) => {
-    Feedback.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
-        if (!err) {
-            res.json({ 'Success': 'Feedback Edited Successfully!!' });
-        } else {
-            console.log('Error during record update : ' + err);
-            res.json({ 'Success': 'Failed :' + err });
-        }
-    });
-});
 
 
 

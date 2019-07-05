@@ -38,6 +38,7 @@ app.use(morgan('dev'));
 const loginController = require('./app/controllers/loginController');
 const frontendController = require('./app/controllers/frontendController');
 const feedbackController = require('./app/controllers/feedbackController');
+const usersController = require('./app/controllers/usersController');
 
 
 // =================================================================
@@ -87,6 +88,7 @@ var corsOptions = {
 app.use('/api', cors(corsOptions), frontendController);
 app.use('/api', cors(corsOptions), loginController);
 app.use('/api', cors(corsOptions), feedbackController);
+app.use('/api', cors(corsOptions), usersController);
 
 // =================================================================
 // start the server ================================================
