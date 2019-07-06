@@ -40,6 +40,7 @@ const frontendController = require('./app/controllers/frontendController');
 const feedbackController = require('./app/controllers/feedbackController');
 const usersController = require('./app/controllers/usersController');
 const appointmentController = require('./app/controllers/appointmentController');
+const forumController = require('./app/controllers/forumController');
 
 
 // =================================================================
@@ -91,6 +92,7 @@ app.use('/api', cors(corsOptions), loginController);
 app.use('/api', cors(corsOptions), feedbackController);
 app.use('/api', cors(corsOptions), usersController);
 app.use('/api', cors(corsOptions), appointmentController);
+app.use('/api', cors(corsOptions), forumController);
 
 // =================================================================
 // start the server ================================================
