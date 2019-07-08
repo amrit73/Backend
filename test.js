@@ -1,4 +1,3 @@
-// use the path of your model
 const feedback = require('./app/models/feedback');
 const appointment = require('./app/models/appointment');
 const user = require('./app/models/user');
@@ -6,7 +5,7 @@ const forum = require('./app/models/forum');
 const forumComment = require('./app/models/forumComment');
 const mongoose = require('mongoose');
 
-// use the new name of the database
+//creating database for testing
 const url = 'mongodb://localhost:27017/apitesting';
 beforeAll(async() => {
     await mongoose.connect(url, {
@@ -18,6 +17,7 @@ afterAll(async() => {
     await mongoose.connection.close();
 });
 
+//schema test of feedback
 describe('feedbacks Schema test', () => {
     // the code below is for insert testing
     it('Add feedbacks testing', () => {
@@ -35,11 +35,13 @@ describe('feedbacks Schema test', () => {
     });
 });
 
+
+//schema test of appointment
 describe('appointment Schema test', () => {
     // the code below is for insert testing
     it('Add Appointment testing ', () => {
         const appointments = {
-            'name': 'manish', // column name name with data_type String
+            'name': 'manish',
             'petname': 'dog',
             'email': 'manishchy@.gmail.com',
             'phone': '9813605819',
@@ -55,11 +57,13 @@ describe('appointment Schema test', () => {
     });
 });
 
+
+//schema test of user
 describe('user Schema test ', () => {
     // the code below is for insert testing
     it('user  testing ', () => {
         const users = {
-            'name': 'amrit', // column name name with data_type String
+            'name': 'amrit',
             'email': 'amrit73@.gmail.com',
             'phone': '9813605819',
             'username': 'amrit',
@@ -72,11 +76,13 @@ describe('user Schema test ', () => {
             });
     });
 });
+
+//schema test of forum
 describe('forum Schema test ', () => {
     // the code below is for insert testing
     it('forum  testing ', () => {
         const forums = {
-            'title': 'Testing the froum schema', // column name name with data_type String
+            'title': 'Testing the froum schema',
             'description': 'this is just for testing purpose',
             'author': 'amrit',
         };
@@ -86,6 +92,7 @@ describe('forum Schema test ', () => {
                 expect(forumtesting.author).toEqual('amrit');
             });
     });
+    //the code below is for update testing
     it('forum update data testing ', () => {
         return forum.update({ author: 'amrit' }, {
             $set: {
@@ -97,11 +104,12 @@ describe('forum Schema test ', () => {
     });
 });
 
+//schema test of forumComment
 describe('forumComment Schema test ', () => {
     // the code below is for insert testing
     it('forumComment  testing ', () => {
         const forumComments = {
-            'description': 'amrit', // column name name with data_type String
+            'description': 'amrit',
             'author': 'amrit'
         };
 
@@ -114,9 +122,9 @@ describe('forumComment Schema test ', () => {
 });
 
 
-
+//schema test of forum
 describe('forum delete test ', () => {
-
+    // the code below is for delete testing
     it('forum  delete ', async() => {
         const status = await forumComment.deleteOne({
             _id: '5d21b98e8ab96c17c4e0aa15'
@@ -128,16 +136,15 @@ describe('forum delete test ', () => {
     });
 
 });
-describe('forum delete test ', () => {
 
+//schema test of forum
+describe('forum delete test ', () => {
+    // the code below is for delete testing
     it('forum  delete ', async() => {
         const status = await forumComment.deleteOne({
             _id: '5d21b98e8ab96c17c4e0aa15'
         }).then(function(res) {
             expect(res.deletedCount).toBe(1)
         })
-
-
     });
-
 });
