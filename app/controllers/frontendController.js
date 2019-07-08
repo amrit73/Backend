@@ -8,6 +8,16 @@ var async = require("async");
 var User = require('../models/user');
 
 
+router.get('/homeForum', function(req, res) {
+    Forum.find((err, docs) => {
+        if (!err) {
+            res.json({ success: true, data: docs });
+        } else {
+            res.json({ success: false, message: "Error while fetching" });
+        }
+    }).limit(8).sort({ '_id': -1 });
+});
+
 router.post('/appointment', (req, res) => {
     var appointment = new Appointment();
     appointment.name = req.body.name;
@@ -57,7 +67,7 @@ router.get('/postlist', function(req, res) {
         } else {
             res.json({ success: false, message: "Error while fetching" });
         }
-    });
+    }).sort({ '_id': -1 });
 });
 
 router.get('/postDetail/:id', (req, res) => {

@@ -1,6 +1,13 @@
 {
     "name": "node-token-authentication",
     "main": "server.js",
+    "scripts": {
+        "test": "jest"
+
+    },
+    "jest": {
+        "testEnvironment": "node"
+    },
     "dependencies": {
         "bcrypt": "^3.0.6",
         "body-parser": "^1.15.0",

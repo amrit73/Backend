@@ -6,7 +6,7 @@ var app = express();
 var Appointment = require('../models/appointment');
 
 
-router.use(function (req, res, next) {
+router.use(function(req, res, next) {
 
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
@@ -14,9 +14,9 @@ router.use(function (req, res, next) {
     if (token) {
 
         // verifies secret and checks exp
-        jwt.verify(token, "secretmessage", function (err, decoded) {
+        jwt.verify(token, "secretmessage", function(err, decoded) {
             if (err) {
-                return res.json({success: false, message: 'Failed to authenticate token.'});
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
             }
         });
 
@@ -32,16 +32,16 @@ router.use(function (req, res, next) {
     console.log(req.body);
     User.findOne({
         _id: req.body.id
-    }, function (err, user) {
+    }, function(err, user) {
         if (err) {
-            res.json({'Success': 'Post Failed Something is wrong. Log in first!!'});
+            res.json({ 'Success': 'Post Failed Something is wrong. Log in first!!' });
         } else if (!user) {
-            res.json({'Success': 'User is not Allowed'});
+            res.json({ 'Success': 'User is not Allowed' });
         } else if (user) {
             if (user.admin) {
                 next();
             } else {
-                res.json({'Success': 'Authentication Failed!!'});
+                res.json({ 'Success': 'Authentication Failed!!' });
             }
         }
 
@@ -51,9 +51,9 @@ router.use(function (req, res, next) {
 
 router.post('/admin/add_appointment', (req, res) => {
 
-    var appointment = new Appointment();            // Making Object of Appointment model
+    var appointment = new Appointment(); // Making Object of Appointment model
 
-    appointment.name = req.body.name;               // put value of object attribute like name, petname, email, date, time, message
+    appointment.name = req.body.name; // put value of object attribute like name, petname, email, date, time, message
     appointment.petname = req.body.petname;
     appointment.phone = req.body.phone;
     appointment.email = req.body.email;
@@ -62,37 +62,40 @@ router.post('/admin/add_appointment', (req, res) => {
     appointment.message = req.body.message;
 
 
-    appointment.save((err, doc) => {                // this save all value in object as well as in table also
+    appointment.save((err, doc) => { // this save all value in object as well as in table also
         if (err) {
             console.log('Error during record insertion : ' + err);
         } else {
-            res.json({'Success': 'Appointment added Successfully!!'});
+            res.json({ 'Success': 'Appointment added Successfully!!' });
         }
     });
 
 });
 
-router.post('/admin/list_appointment', function (req, res, next) {
+router.post('/admin/list_appointment', function(req, res, next) {
     Appointment.find((err, docs) => {
-      if (!err) {
-          res.json({success: true, data: docs});
-      }
-      else {
-          res.json({success: false, message: "Error while fetching"});
-      }
-    }).sort({'_id': -1});
+        if (!err) {
+            res.json({ success: true, data: docs });
+        } else {
+            res.json({ success: false, message: "Error while fetching" });
+        }
+    }).sort({ '_id': -1 });
 });
 
 //Url will be localhost:3000/appointment/delete/{appointment_id}
 router.post('/admin/delete_appointment', (req, res) => {
-    Appointment.findByIdAndRemove(req.body._id, (err, doc) => {
+
+    var status = Appointment.findByIdAndRemove(req.body._id, (err, doc) => {
         if (!err) {
-            res.json({'Success': 'Appointment Deleted Successfully!!'});
-        }
-        else {
+            res.json({ 'Success': 'Appointment Deleted Successfully!!' });
+        } else {
             console.log('Error in Appointment delete :' + err);
         }
     });
+
+
+
+
 });
 
 router.post('/admin/edit_appointment', (req, res) => {
@@ -104,13 +107,12 @@ router.post('/admin/edit_appointment', (req, res) => {
 });
 
 router.post('/admin/update_appointment', (req, res) => {
-    Appointment.findOneAndUpdate({_id: req.body._id}, req.body, {new: true}, (err, doc) => { //find by id and update it
+    Appointment.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => { //find by id and update it
         if (!err) {
-            res.json({'Success': 'Appointment Edited Successfully!!'});
-        }
-        else {
+            res.json({ 'Success': 'Appointment Edited Successfully!!' });
+        } else {
             console.log('Error during record update : ' + err);
-            res.json({'Success': 'Failed :'+err});
+            res.json({ 'Success': 'Failed :' + err });
         }
     });
 });
