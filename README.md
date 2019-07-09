@@ -5,7 +5,12 @@ CollegeID: 160329
 
 Batch: Jan19D
 
-Brief description of the domain of your project!
+Domain:
+Animal Care System can be embedded with any veterinary clinic website according to their requirement. With the help of this system, the customers of respective veterinary clinic can easily make an appointment online. These clinics can take a donation and can provide extra support to their customers.  Hence, animal care system will be a great medium for veterinary and they can raise their business profit.
+
+
+
+
 
 Packages Used
         "bcrypt": "^3.0.6",
@@ -51,10 +56,9 @@ $ npm install Jest
 
 ## List of Main Features
 1)	Secured database as user’s password are encrypted using bcrypt function
-2)	Tokens are used to --------
-3)	Schemas are well structured
-4)	Admin can block the user in case of any violence by user.
-5)	Admin can delete the post in the case when the post contains any disturbing content. 
+2)	Schemas are well structured
+3)	Admin can block the user in case of any violence by user.
+4)	Admin can delete the post in the case when the post contains any disturbing content. 
 
 ## API Documentation
 1)
