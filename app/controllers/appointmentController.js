@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var app = express();
 var Appointment = require('../models/appointment');
 
-
+//
 router.use(function(req, res, next) {
 
     // check header or url parameters or post parameters for token

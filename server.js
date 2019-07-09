@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 const path = require('path');
-
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var User = require('./app/models/user'); // get our mongoose model
@@ -62,7 +61,7 @@ app.get('/setup', function(req, res) {
     });
 });
 
-// basic route (http://localhost:8080)
+// basic route (http://localhost:3000)
 app.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
@@ -71,9 +70,6 @@ app.get('/', function(req, res) {
 // get an instance of the router for api routes
 // ---------------------------------------------------------
 var apiRoutes = express.Router();
-
-
-
 
 
 // ---------------------------------------------------------

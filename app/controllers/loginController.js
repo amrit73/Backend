@@ -91,31 +91,27 @@ router.post('/signup', function(req, res, next) {
 
                 // if the email is not already taken
                 if (!data) {
-                    var c;
-                    // find the last user and take unique_id from that to variable c for new user
-                    User.findOne({}, function(err, data) {
+                    var hashpassword = bcrypt.hashSync(personInfo.password, 10);
+                    //Initialize the user Model object with variable or value from the post form
+                    var newPerson = new User({
+                        email: personInfo.email,
+                        username: personInfo.username,
+                        password: hashpassword,
+                        passwordConf: hashpassword,
+                        admin: false
+                    });
+                    console.log(req.body); //data  get from userend
+                    console.log(newPerson); //data i.e  store in database
 
-                        var hashpassword = bcrypt.hashSync(personInfo.password, 10);
-                        //Initialize the user Model object with variable or value from the post form
-                        var newPerson = new User({
-                            email: personInfo.email,
-                            username: personInfo.username,
-                            password: hashpassword,
-                            passwordConf: hashpassword,
-                            admin: false
-                        });
-                        console.log(req.body); //data  get from userend
-                        console.log(newPerson); //data i.e  store in database
+                    // Save it to table User
+                    newPerson.save(function(err, Person) {
+                        if (err)
+                            console.log(err);
+                        else
+                            console.log('Success');
+                    });
 
-                        // Save it to table User
-                        newPerson.save(function(err, Person) {
-                            if (err)
-                                console.log(err);
-                            else
-                                console.log('Success');
-                        });
 
-                    }).sort({ _id: -1 }).limit(1);
                     res.send({ "Success": "You are regestered,You can login now." }); // send response to ajax call to view
                 } else {
                     res.send({ "Success": "Email is already used." }); // send response to ajax call to view
