@@ -17,6 +17,7 @@ Packages Used
         "jsonwebtoken": "^5.7.0",
         "mongoose": "^4.4.5",
         "morgan": "^1.7.0"
+        
 Bcrypt: Bcrypt is a password hashing function. In my system, it is used for authentication process.
 Installation is done using the npm install command:
 $ npm install bcrypt
@@ -59,15 +60,24 @@ $ npm install Jest
 1)
 router.post('/admin/update_forum')
 This routes works when the post function is called on url(‘/admin/update_form’), it search the received id from the post data as _id and finds out the forum detail by comparing post _id to table’s id and updates in the respective id. If the data is updated successfully then it sends Success message “Forum Edited Successfully!’ as a json. 
+
+
+
 2)
 router.post('/admin/delete_forum')
 This router works by getting the id of post(forum) from the user and it finds the id of that post in the database, if it finds the id in the database then it deletes record of the post in the database. And in the response it sends forum deleted successfully in json.
+
+
 3)
 router.get('/get_comment/:id')
 This router receives third parameter of url as id. Then it selects all the comments of that specific forum id. And send all selected row in data as json. If the forum id is not found in database then throw error response in json.
+
+
 4) 
 router.post('/edtprofile')
 This router is post function. It hit in the api when /localhost:3000/api/edtprofile is called. It gets the id from the user in post data and search it in the database. And the post data may be username, name , email, phone and password. If it finds the id then it will update in that respective id. As a response it sends success message.
+
+
 5)
 router.post('/post_comment/');
 To post comment the user should be logged in or the post data should contain _id i.e user_id if not then he can't post comment. If the user is found on database then next step is to validate that whether the username is valid or not. If all goes ok then insert the comment to database with forum_id as foreign_key which later can be selected through forum_id for a specific forum. If the comment is inserted to the database then respond back success message to user.
